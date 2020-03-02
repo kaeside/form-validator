@@ -17,9 +17,14 @@ const showErr = (el, message) => {
   formControl.className = 'form-control error';
 };
 
-const isAlphanumeric = el => {
+const isAlphanumeric = input => {
   const exp = /"^[a-zA-Z0-9_]*$"/;
-  return exp.test(String(el.value));
+  return exp.test(String(input.value));
+};
+
+const isValidEmail = email => {
+  const exp = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+  return exp.test(String(email));
 };
 
 const checkRequired = inputArr => {
@@ -30,6 +35,12 @@ const checkRequired = inputArr => {
   });
 };
 
+const checkEmail = email => {
+  if (!isValidEmail(email.value)) {
+    showErr(email, 'Please enter a valid email address');
+  }
+};
+
 passwordVisibility.addEventListener('change', () => {
   togglePasswordVisibility(password);
 });
@@ -37,5 +48,6 @@ passwordVisibility.addEventListener('change', () => {
 form.addEventListener('submit', e => {
   e.preventDefault();
   checkRequired([username, email, password]);
+  checkEmail(email);
   console.log(username.name, email.name, password.name);
 });
