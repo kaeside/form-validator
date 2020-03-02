@@ -13,25 +13,24 @@
     <div id="app">
         <form id="form" class="form">
             <h2>Forum Registration</h2>
-            <div class="form-control error">
+            <div class="form-control">
                 <small class="hide">Error Message</small>
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username" placeholder="Enter username">
             </div>
-            <div class="form-control error">
+            <div class="form-control">
                 <small class="hide">Error Message</small>
                 <label for="Email">Email</label>
                 <input type="text" name="email" id="email" placeholder="Enter email">
             </div>
-            <div class="form-control error">
+            <div class="form-control">
                 <small class="hide">Error Message</small>
                 <label for="username">Password</label>
                 <input type="password" name="password" id="password" placeholder="Enter password">
-            </div>
-            <div class="form-control error">
-                <small class="hide">Error Message</small>
-                <label for="confirm-password">Confirm password</label>
-                <input type="password" name="confirm-password" id="confirm-password" placeholder="Confirm password">
+                <div class="password-visibility">
+                    <label for="show-password">Show Password</label>
+                    <input type="checkbox" id="password-visibility">
+                </div>
             </div>
             <button type="submit">Submit</button>
         </form>
