@@ -10,9 +10,24 @@ const togglePasswordVisibility = el => {
   el.type === 'password' ? (el.type = 'text') : (el.type = 'password');
 };
 
+const showErr = (el, message) => {
+  const formControl = el.parentElement;
+  const errorEl = formControl.querySelector('small');
+  errorEl.innerText = message;
+  formControl.className = 'form-control error';
+};
+
 const isAlphanumeric = el => {
   const exp = /"^[a-zA-Z0-9_]*$"/;
   return exp.test(String(el.value));
+};
+
+const checkRequired = inputArr => {
+  inputArr.forEach(input => {
+    if (input.value === '') {
+      showErr(input, `${input.name} is required`);
+    }
+  });
 };
 
 passwordVisibility.addEventListener('change', () => {
@@ -21,5 +36,6 @@ passwordVisibility.addEventListener('change', () => {
 
 form.addEventListener('submit', e => {
   e.preventDefault();
+  checkRequired([username, email, password]);
   console.log(username.name, email.name, password.name);
 });
