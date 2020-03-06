@@ -5,6 +5,9 @@ const password = document.querySelector('#password');
 const passwordVisibility = document.querySelector('#password-visibility');
 const btn = document.querySelector('button');
 
+const alphaNumericExp = /"^[a-zA-Z0-9_]*$"/;
+const emailExp = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+
 const togglePasswordVisibility = el => {
   console.log(el.type);
   el.type === 'password' ? (el.type = 'text') : (el.type = 'password');
@@ -17,17 +20,17 @@ const showErr = (el, message) => {
   formControl.className = 'form-control error';
 };
 
-const isAlphanumeric = input => {
-  const exp = /"^[a-zA-Z0-9_]*$"/;
-  return exp.test(String(input.value));
+const showSuccess = el => {
+  const formControl = el.parentElement;
+  formControl.className = 'form-control success';
 };
 
-const isValidEmail = email => {
-  const exp = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-  return exp.test(String(email));
+const isValid = (inputValue, expression) => {
+  console.log(inputValue, expression);
+  return expression.test(String(inputValue));
 };
 
-const checkRequired = inputArr => {
+const checkForBlanks = inputArr => {
   inputArr.forEach(input => {
     if (input.value === '') {
       showErr(input, `${input.name} is required`);
@@ -35,9 +38,28 @@ const checkRequired = inputArr => {
   });
 };
 
-const checkEmail = email => {
-  if (!isValidEmail(email.value)) {
+const checkLength = (input, min, max) => {
+  const { value, name } = input;
+  if (value.length < min) {
+    showErr(
+      input,
+      `Please enter a ${name} that is at least ${min} characters long.`
+    );
+  } else if (value.length > max) {
+    showErr(
+      input,
+      `Please enter a ${name} that is less than ${max} characters long.`
+    );
+  } else {
+    showSuccess(input);
+  }
+};
+
+const checkEmail = (email, exp) => {
+  if (!isValid(email.value, exp)) {
     showErr(email, 'Please enter a valid email address');
+  } else {
+    showSuccess(email);
   }
 };
 
@@ -47,7 +69,8 @@ passwordVisibility.addEventListener('change', () => {
 
 form.addEventListener('submit', e => {
   e.preventDefault();
-  checkRequired([username, email, password]);
-  checkEmail(email);
-  console.log(username.name, email.name, password.name);
+  checkForBlanks([username, email, password]);
+  checkLength(username, 3, 10);
+  checkLength(password, 12, 24);
+  checkEmail(email, emailExp);
 });
