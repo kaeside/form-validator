@@ -41,15 +41,9 @@ const checkForBlanks = inputArr => {
 const checkLength = (input, min, max) => {
   const { value, name } = input;
   if (value.length < min) {
-    showErr(
-      input,
-      `Please enter a ${name} that is at least ${min} characters long.`
-    );
+    showErr(input, `The ${name} needs to be at least ${min} characters long.`);
   } else if (value.length > max) {
-    showErr(
-      input,
-      `Please enter a ${name} that is less than ${max} characters long.`
-    );
+    showErr(input, `The ${name} needs to be less than ${max} characters long.`);
   } else {
     showSuccess(input);
   }
@@ -67,10 +61,30 @@ passwordVisibility.addEventListener('change', () => {
   togglePasswordVisibility(password);
 });
 
+const isSuccess = inputArr => {
+  return inputArr.every(input => {
+    const formControl = input.parentElement;
+    return formControl.classList.contains('success');
+  });
+};
+
+const showFormSuccess = inputArr => {
+  const formSuccess = document.querySelector('.form-success');
+  if (isSuccess(inputArr)) {
+    formSuccess.className = 'form-success';
+    inputArr.forEach(input => {
+      input.value = '';
+    });
+  } else {
+    formSuccess.className = 'form-success hide';
+  }
+};
+
 form.addEventListener('submit', e => {
   e.preventDefault();
   checkForBlanks([username, email, password]);
   checkLength(username, 3, 10);
   checkLength(password, 12, 24);
   checkEmail(email, emailExp);
+  showFormSuccess([username, email, password]);
 });

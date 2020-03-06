@@ -82,6 +82,23 @@ h2 {
   visibility: visible;
 }
 
+.form-success {
+  color: var(--success-color);
+  display: block;
+  text-align: center;
+}
+
+.form-control .password-visibility {
+  display: flex;
+  font-size: smaller;
+  padding-top: 0.5em;
+}
+
+.form-control #password-visibility {
+  display: inline-block;
+  width: auto;
+}
+
 .form button {
   background-color: #3498db;
   border-radius: 0.25em;
@@ -91,4 +108,8 @@ h2 {
   margin-top: 1.5em;
   padding: 0.5em;
   width: 100%;
+}
+
+.hide {
+  visibility: hidden;
 }
